@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TV Digital Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+
+        <h1>📺 TV Digital Manager</h1>
+
+        <p>Panel de Administración IPTV</p>
+
+    </div>
+
+    <div class="estado-api">
+
+        <span class="online"></span>
+
+        API Conectada
+
+    </div>
+
+</header>
+
+
+
+<div class="contenedor">
+
+
+
+
+<div class="contadores">
+
+    <div class="card azul">
+
+        <h3>👥 Total Clientes</h3>
+
+        <span id="totalClientes">0</span>
+
+    </div>
+
+
+    <div class="card verdeCard">
+
+        <h3>🟢 Activos</h3>
+
+        <span id="totalActivos">0</span>
+
+    </div>
+
+
+
+    <div class="card amarilloCard">
+
+        <h3>🟡 Próximos</h3>
+
+        <span id="totalProximos">0</span>
+
+    </div>
+
+
+
+    <div class="card rojoCard">
+
+        <h3>🔴 Vencidos</h3>
+
+        <span id="totalVencidos">0</span>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<nav class="menu">
+
+<button onclick="abrirPestana('clientes')">
+
+👥 Clientes
+
+</button>
+
+
+<button onclick="abrirPestana('nuevo')">
+
+➕ Nuevo Cliente
+
+</button>
+
+</nav>
+
+
+
+
+
+
+
+
+<section id="clientes" class="panel">
+
+
+<div class="titulo-panel">
+
+<h2>Gestión de Clientes</h2>
+
+<p>Administrá todas las cuentas IPTV desde un solo lugar.</p>
+
+</div>
+
+
+
+
+
+<div class="buscador">
+
+<input
+
+id="buscador"
+
+placeholder="🔎 Buscar por nombre, usuario o teléfono..."
+
+onkeyup="buscarCliente()"
+
+>
+
+</div>
+
+
+
+
+
+<div id="resultadoBusqueda"></div>
+
+
+
+
+
+
+<div class="estados">
+
+
+<button class="verde"
+
+onclick="mostrarLista('activos')">
+
+🟢 Activos
+
+</button>
+
+
+
+<button class="amarillo"
+
+onclick="mostrarLista('proximos')">
+
+🟡 Próximos a vencer
+
+</button>
+
+
+
+
+<button class="rojo"
+
+onclick="mostrarLista('vencidos')">
+
+🔴 Vencidos
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div id="activos">
+
+
+<h2>
+
+🟢 Clientes Activos
+
+</h2>
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>Nombre</th>
+
+<th>Teléfono</th>
+
+<th>Usuario</th>
+
+<th>Vencimiento</th>
+
+<th>Acciones</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="tablaActivos"></tbody>
+
+
+</table>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div id="proximos" class="oculto">
+
+
+<h2>
+
+🟡 Próximos a vencer
+
+</h2>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Nombre</th>
+
+<th>Teléfono</th>
+
+<th>Usuario</th>
+
+<th>Vencimiento</th>
+
+<th>Acciones</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="tablaProximos"></tbody>
+
+</table>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div id="vencidos" class="oculto">
+
+
+<h2>
+
+🔴 Clientes Vencidos
+
+</h2>
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Nombre</th>
+
+<th>Teléfono</th>
+
+<th>Usuario</th>
+
+<th>Vencimiento</th>
+
+<th>Acciones</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="tablaVencidos"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<section id="nuevo" class="panel oculto">
+
+    <div class="titulo-panel">
+
+        <h2>➕ Nuevo Cliente</h2>
+
+        <p>Completá los datos para registrar una nueva cuenta IPTV.</p>
+
+    </div>
+
+
+    <div class="formulario">
+
+        <div class="campo">
+
+            <label>👤 Nombre del cliente</label>
+
+            <input id="nombre" type="text" placeholder="Ej: Ramiro Fernández">
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>📞 Teléfono</label>
+
+            <input id="telefono" type="text" placeholder="Ej: 2664123456">
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>👤 Usuario IPTV</label>
+
+            <input id="usuario" type="text" placeholder="Usuario">
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>🔑 Contraseña</label>
+
+            <input id="contrasena" type="text" placeholder="Contraseña">
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>📅 Fecha de pago</label>
+
+            <input id="fechaPago" type="date">
+
+        </div>
+
+
+        <button class="btnGuardar" onclick="guardarCliente()">
+
+            💾 Guardar Cliente
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- NOTIFICACIONES -->
+
+<div id="notificacion" class="notificacion oculto">
+
+    <div class="toast">
+
+        <span id="textoNotificacion"></span>
+
+    </div>
+
+</div>
+
+
+
+<!-- MODAL -->
+
+<div id="modal" class="modal oculto">
+
+    <div class="modal-contenido">
+
+        <div class="modal-icono">
+
+            ⚠️
+
+        </div>
+
+        <h2>Confirmar acción</h2>
+
+        <p id="mensajeModal"></p>
+
+        <div class="botonesModal">
+
+            <button id="btnConfirmar" class="btnEliminar">
+
+                🗑️ Confirmar
+
+            </button>
+
+            <button onclick="cerrarModal()" class="btnCancelar">
+
+                Cancelar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
