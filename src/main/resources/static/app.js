@@ -1,6 +1,4 @@
-const url = "http://localhost:8080/api/clientes";
-
-
+const url = "/api/clientes";
 
 // =======================
 // PESTAÑAS
